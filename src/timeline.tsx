@@ -11,6 +11,8 @@ const resourceCount = 60
 const eventCount = 60
 
 export const Timeline: React.FC = () => {
+  const [largeList, setLargeList] = React.useState<number>(1)
+
   const view = React.useMemo<MbscEventcalendarView>(() => {
     return {
       timeline: {
@@ -26,10 +28,10 @@ export const Timeline: React.FC = () => {
     const events: MbscCalendarEvent[] = []
     const today = new Date().toISOString().slice(0, 10)
     const timeStrings = [
-      {start: 'T08:00', end: 'T10:00'},
-      {start: 'T16:00', end: 'T17:30'},
-      {start: 'T12:00', end: 'T13:00'},
-      {start: 'T10:30', end: 'T16:30'},
+      { start: 'T08:00', end: 'T10:00' },
+      { start: 'T16:00', end: 'T17:30' },
+      { start: 'T12:00', end: 'T13:00' },
+      { start: 'T10:30', end: 'T16:30' },
     ]
 
     for (let i = 0; i < eventCount; i++) {
@@ -48,9 +50,9 @@ export const Timeline: React.FC = () => {
     for (let i = 0; i < resourceCount; i++) {
       resources.push({
         id: i,
-        name: `Resource ${String.fromCharCode(65 + i / 26)}${
-          String.fromCharCode(65 + i % 26)
-        }`,
+        name: `Resource ${String.fromCharCode(
+          65 + i / 26
+        )}${String.fromCharCode(65 + (i % 26))}`,
         color: '#e20000',
       })
     }
@@ -80,8 +82,13 @@ export const Timeline: React.FC = () => {
   }
   const [distanceToTop] = useDistanceToTop('timeline_id')
 
+  const onButtonClick = () => {
+    setLargeList(largeList ? 0 : 1)
+  }
+
   return (
     <>
+      <button type='button' onClick={onButtonClick}>{`${largeList ? 60 : 8} resources`}</button>
       <div
         style={{
           height: `calc(95vh - ${distanceToTop}px)`,
@@ -95,7 +102,7 @@ export const Timeline: React.FC = () => {
           themeVariant='light'
           view={view}
           data={myEvents}
-          resources={myResources}
+          resources={myResources.slice(0, largeList ? resourceCount : 8)}
         />
       </div>
     </>
