@@ -91,7 +91,7 @@ export const Timeline: React.FC = () => {
       <button type='button' onClick={onButtonClick}>{`${largeList ? 60 : 8} resources`}</button>
       <div
         style={{
-          height: `calc(95vh - ${distanceToTop}px)`,
+          height: '700px', // `calc(95vh - ${distanceToTop}px)`,
           overflow: 'auto',
           margin: '0 10px',
         }}
